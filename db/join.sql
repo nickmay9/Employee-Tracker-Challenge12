@@ -12,11 +12,5 @@ SELECT employee.id, employee.first_name, employee.last_name, roles.title, depart
 FROM employee m, employee
 INNER JOIN roles ON employee.role_id = roles.id
 INNER JOIN department ON roles.department_id = department.id
-WHERE employee.manager_id = m.id
-ORDER BY employee.id;
-
-SELECT employee.id, employee.first_name, employee.last_name, roles.title, department.name AS department, roles.salary, employee.manager_id AS manager
-FROM employee
-INNER JOIN roles ON employee.role_id = roles.id
-INNER JOIN department ON roles.department_id = department.id
+WHERE employee.manager_id = m.id 
 ORDER BY employee.id;
