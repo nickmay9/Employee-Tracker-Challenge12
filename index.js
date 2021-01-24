@@ -94,6 +94,7 @@ const startCompany = () => {
                 'Delete a Role',
                 'Add a Department',
                 'Delete a Department',
+                'View Departments Budget',
                 'Exit'
             ]
         }
@@ -134,6 +135,9 @@ const startCompany = () => {
                     break;
                 case 'Delete a Department':
                     deleteDepartment();
+                    break;
+                case 'View Departments Budget':
+                    viewDepartmentBudget();
                     break;
                 case 'Exit':
                     connection.end();
@@ -468,5 +472,36 @@ const deleteDepartment = () => {
                 startCompany();
             });
         });
+}
+
+const viewDepartmentBudget = () => {
+    const viewDepartmentBudgetPrompt = [
+        {
+            type: 'list',
+            name: 'department',
+            message: 'Which department budget do you want to see?',
+            choices: departmentArr
+        }
+    ];
+
+    inquirer.prompt(viewDepartmentBudgetPrompt)
+    .then(answers => {
+        let index = departmentArr.map(function (x) { return x.name; }).indexOf(answers.department);
+        const depNum = departmentArr[index].id;
+
+        const sql = `SELECT roles.salary FROM roles WHERE roles.department_id = ${depNum}`;
+
+        connection.query(sql, function(err, res, fields) {
+            if (err) throw err;
+
+            let budget = 0;
+            for(let i=0; i<res.length; i++){
+                budget += res[i].salary;
+            }
+            console.log(`The ${answers.department} department's total budget is $${budget}.`);
+            startCompany();
+        });
+    });
+
 }
 
