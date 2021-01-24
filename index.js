@@ -144,17 +144,50 @@ const startCompany = () => {
 }
 
 const viewEmployees = () => {
-    const sql = `SELECT employee.id, employee.first_name, employee.last_name, roles.title, department.name AS department, roles.salary, employee.manager_id
-    FROM employee
-    INNER JOIN roles ON employee.role_id = roles.id
-    INNER JOIN department ON roles.department_id = department.id
-    ORDER BY employee.id`;
 
-    connection.query(sql, function (err, res) {
-        if (err) throw err;
-        console.table('Employee Table', res);
-        startCompany();
-    });
+    const viewEmployeePrompt = [
+        {
+            type: 'list',
+            name: 'order',
+            message: "How would you like to view the employees?",
+            choices: [
+                'by department',
+                'by manager',
+                'default'
+            ]
+        }
+    ];
+
+    inquirer.prompt(viewEmployeePrompt)
+    .then(answers => {
+        let sql = `SELECT employee.id, employee.first_name, employee.last_name, roles.title, department.name AS department, roles.salary, employee.manager_id
+        FROM employee
+        INNER JOIN roles ON employee.role_id = roles.id
+        INNER JOIN department ON roles.department_id = department.id
+        ORDER BY `;
+
+        let params = '';
+        switch (answers.order){
+            case 'by department':
+                params = 'department.name';
+                break;
+            case 'by manager':
+                params = 'employee.manager_id';
+                break;
+            default:
+                params = 'employee.id';
+                break;
+        }
+
+        sql += params;
+
+        connection.query(sql, function (err, res) {
+            if (err) throw err;
+            console.table('Employee Table', res);
+            startCompany();
+        });
+    })
+    
 }
 
 const viewRoles = () => {
