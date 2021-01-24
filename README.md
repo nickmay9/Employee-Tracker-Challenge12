@@ -19,7 +19,7 @@ This project was done to learn basic SQL database concepts. Using an employee da
 [link to deployed site](https://github.com/nickmay9/Employee-Tracker-Challenge12)
 
 ## WalkthroughVideo
-[link to walkthrough video]()
+[link to walkthrough video](https://drive.google.com/file/d/1f-zxgQDb9xXT2shnzj-FvZrxZfFrNaET/view)
 
 ## License 
 This is free and unencumbered software released into the public domain.
