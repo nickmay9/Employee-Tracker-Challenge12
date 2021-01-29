@@ -12,5 +12,12 @@ SELECT employee.id, employee.first_name, employee.last_name, roles.title, depart
 FROM employee m, employee
 INNER JOIN roles ON employee.role_id = roles.id
 INNER JOIN department ON roles.department_id = department.id
-WHERE employee.manager_id = m.id 
+WHERE employee.manager_id = m.id
+ORDER BY employee.id;
+
+SELECT employee.id, employee.first_name, employee.last_name, roles.title, department.name AS department, roles.salary, CONCAT(m.first_name, ' ', m.last_name) AS manager
+FROM employee
+LEFT JOIN employee AS m ON employee.manager_id = m.id
+INNER JOIN roles ON employee.role_id = roles.id
+INNER JOIN department ON roles.department_id = department.id
 ORDER BY employee.id;
